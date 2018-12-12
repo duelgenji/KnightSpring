@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<script src="jquery.min.js"></script>
+	<title>Insert title here</title>
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				url: "http://127.0.0.1:8081/c2",
+				success: function( result ) {
+					alert(result);
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	1
+</body>
+</html>
