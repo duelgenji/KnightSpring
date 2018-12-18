@@ -1,7 +1,5 @@
 package com.duelgenji.service;
 
-import java.io.IOException;
-import java.rmi.AccessException;
 import java.util.concurrent.Future;
 
 import org.springframework.remoting.RemoteAccessException;
@@ -20,26 +18,37 @@ public class AsnycService {
 	public Future<String> async(int i)  {
 		
 		
+		System.out.println("start #" + i);
+
 		try {
-			Thread.sleep(500);
+
+//			cpu block
+//			double count=0;
+//			for(double j=0;j<5000000;j++) {
+//				count=Math.sin(j*2);
+//			}
+
+//			io block 
+//			Thread.sleep(3000);
+		
 			double d = Math.random();
-			if(d<0.7) {
-				System.out.println("#" + i + ":" + d + "<0.3 retry");
+			if(d<0) {
+				System.out.println("retry #" + i + ":" + d + "<0.3 retry");
 				throw new RemoteAccessException("#"+i);
 			}
-			System.out.println(i);
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 
-		return new AsyncResult<>(String.format("这个是第{%s}个异步调用的证书", i));
+		System.out.println("end #" + i);
+		return new AsyncResult<>(String.format("这个是第{%s}个成功异步调用的证书，成功", i));
 	}
 	
 	@Recover
 	public Future<String> recover(RemoteAccessException ex,int i) {
 		
 		System.out.println(ex.getMessage() + " recover" + "#"+i);
-		return new AsyncResult<>(String.format("这个是第{%s}个异步调用的证书", i));
+		return new AsyncResult<>(String.format("这个是第{%s}个异步调用的证书，失败", i));
 	}
 
 }

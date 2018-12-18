@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,17 +26,18 @@ public class AsyncController {
 		 
 	        Map<String, Object> map = new HashMap<>();
 	        List<Future<String>> futures = new ArrayList<>();
-	        for (int i = 0; i < 10; i++) {
+	        for (int i = 0; i < 100000; i++) {
 	            Future<String> future = asyncService.async(i);
 	            futures.add(future);
 	        }
 	        List<String> response = new ArrayList<>();
-	        for (Future future : futures) {
-	            String string = (String) future.get();
+	        for (Future<String> future : futures) {
+	            String string = future.get();
 	            response.add(string);
 	        }
 	        map.put("data", response);
-	        map.put("消耗时间", String.format("任务执行成功,耗时{%s}毫秒", System.currentTimeMillis() - start));
+	        long seconds = (System.currentTimeMillis() - start)/1000;
+	        map.put("消耗时间", String.format("任务执行成功,耗时{%s}秒", seconds));
 	        return map;
 
 	}
