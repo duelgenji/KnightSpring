@@ -29,7 +29,7 @@ public class AsnycService {
 //			}
 
 //			io block 
-//			Thread.sleep(3000);
+			Thread.sleep(3000);
 		
 			double d = Math.random();
 			if(d<0) {
